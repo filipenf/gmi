@@ -2,7 +2,16 @@
 
 #include <boost/asio.hpp>
 
+#include "WLMFilter.h"
+#include "Server.h"
+
 int main(int argc, char** argv) {
-	return -1;
+	boost::asio::io_service ios;
+
+	Server<wlm::WLMFilter> server(ios, tcp::endpoint(tcp::v4(), 1863));
+
+	ios.run();
+
+	return 0;
 }
 

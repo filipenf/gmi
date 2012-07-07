@@ -9,11 +9,13 @@ namespace wlm {
 
 class WLMFilter {
 public:
+	WLMFilter(boost::asio::io_service &);
 	void start();
+	void read_header();
 
 private:
+	boost::asio::io_service &io_service_;
 	tcp::socket socket_;
-		
-}
+};
 
 } // namespace

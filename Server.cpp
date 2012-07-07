@@ -2,7 +2,7 @@
 
 template <typename F>
 Server<F>::Server(boost::asio::io_service& s, const tcp::endpoint& e)
-	: ios_(s), 
+	: ios_(s),
 	  acceptor_(s, e)
 {
 	accept_new();
