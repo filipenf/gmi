@@ -2,7 +2,7 @@
 
 #include <boost/asio.hpp>
 
-#include "WLMFilter.h"
+#include "wlm/WLMFilter.h"
 #include "Server.h"
 
 int main(int argc, char** argv) {
