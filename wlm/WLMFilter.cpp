@@ -1,24 +1,25 @@
 #include "WLMFilter.h"
+#include "../Log.h"
+
+#include <istream>
 
 using boost::asio::async_read_until;
-using boost::asio::buffer;
-using boost::bind;
+using boost::asio::streambuf;
 
 namespace wlm {
 
-WLMFilter::WLMFilter(boost::asio::io_service &ios) :
-	io_service_(ios),
-	socket_(ios)
+Filter::Filter(boost::asio::io_service &ios) :
+    ioService_(ios),
+	client_(ios),
+    server_(ios)
 {
 
 }
 
-void WLMFilter::start() {
-	read_header();
+void Filter::start() {
+    client_.read_header();
 }
 
-void WLMFilter::read_header() {
-	async_read_until(socket_, buffer(command.header()), '\n');
-}
+
 
 }

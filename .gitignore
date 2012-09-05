@@ -12,3 +12,6 @@ build/
 *.lai
 *.la
 *.a
+
+#vim temp files
+*.swp

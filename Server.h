@@ -9,6 +9,8 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/asio.hpp>
 
+#include "Log.h"
+
 using boost::asio::ip::tcp;
 
 class GenericFilter {
@@ -28,11 +30,30 @@ class Server {
 public:
 	typedef boost::shared_ptr<F> filter_ptr;
 
-	Server(boost::asio::io_service&, const tcp::endpoint&);
-	~Server();
+    Server(boost::asio::io_service& s, const tcp::endpoint& e)
+        : ios_(s),
+        acceptor_(s, e)
+    {
+        accept_new();
+    }
 
-	void handle_accept(filter_ptr&, boost::system::error_code);
-	void accept_new();
+    ~Server() {
+    }
+
+    void handle_accept(filter_ptr &fp, boost::system::error_code) {
+        fp->start();
+        accept_new();
+    }
+
+    void accept_new() {
+        LOG_FUNCTION("Server::accept_new");
+        filter_ptr fp ( new F(ios_) );
+        acceptor_.async_accept( fp->socket(), boost::bind(
+                    &Server::handle_accept, this, fp, 
+                    boost::asio::placeholders::error) );
+        filters_.push_back(fp);	
+    }
+
 private:
 	boost::asio::io_service &ios_;
 	tcp::acceptor acceptor_;

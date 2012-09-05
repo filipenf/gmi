@@ -1,21 +1,34 @@
+#ifndef _GMI_WLM_FILTER_H_
+#define _GMI_WLM_FILTER_H_
+#include <string>
 #include <boost/bind.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/asio.hpp>
 
+#include "WLMConnection.h"
+#include "WLMMessage.h"
+
 using boost::asio::ip::tcp;
 
 namespace wlm {
 
-class WLMFilter {
+typedef std::vector<std::string> MessageHeader;
+
+class Filter {
 public:
-	WLMFilter(boost::asio::io_service &);
+	Filter(boost::asio::io_service &);
 	void start();
-	void read_header();
+
+    tcp::socket &socket() { return client_.socket(); };
 
 private:
-	boost::asio::io_service &io_service_;
-	tcp::socket socket_;
+	boost::asio::io_service &ioService_;
+    Connection client_; // the connection with internal client
+    Connection server_; // keeps the conection with WLM server
+    Message message_;
 };
 
 } // namespace
+
+#endif  // _GMI_WLM_FILTER_H_
