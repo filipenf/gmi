@@ -19,6 +19,7 @@ link_directories(
 target_link_libraries( gmi 
     boost_system
     boost_thread
+    boost_signals
     glog
     )
 

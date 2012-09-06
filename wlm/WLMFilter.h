@@ -13,20 +13,20 @@ using boost::asio::ip::tcp;
 
 namespace wlm {
 
-typedef std::vector<std::string> MessageHeader;
-
 class Filter {
-public:
-	Filter(boost::asio::io_service &);
-	void start();
-
-    tcp::socket &socket() { return client_.socket(); };
-
 private:
 	boost::asio::io_service &ioService_;
     Connection client_; // the connection with internal client
     Connection server_; // keeps the conection with WLM server
     Message message_;
+
+public:
+	Filter(boost::asio::io_service &);
+	void start();
+
+    tcp::socket &socket() { return client_.socket(); };
+private:
+    void clientMessageReceived(MessagePtr&m);
 };
 
 } // namespace

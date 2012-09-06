@@ -14,12 +14,16 @@ Filter::Filter(boost::asio::io_service &ios) :
     server_(ios)
 {
 
+    client_.messageReceived.connect(
+            boost::bind(&Filter::clientMessageReceived, this, _1));
 }
 
 void Filter::start() {
     client_.read_header();
 }
 
-
+void Filter::clientMessageReceived(MessagePtr &m) {
+//    LOG(INFO) << "Message received "<< (*m)[0];
+}
 
 }
